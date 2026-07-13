@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Sit Well — Live Posture Coach</title>
+  <link rel="icon" href="data:," />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
+  <script src="https://unpkg.com/ml5@0.2.3/dist/ml5.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">◐</span>
+      <span class="brand-name">Sit&nbsp;Well</span>
+    </div>
+    <span class="brand-tag">a live posture coach, not just an alarm</span>
+  </header>
+
+  <main class="layout">
+
+    <section class="stage-panel">
+      <div class="stage-frame">
+        <div id="video" class="stage-canvas-slot"></div>
+        <div class="score-ring-wrap" id="scoreRingWrap">
+          <svg viewBox="0 0 120 120" class="score-ring">
+            <circle cx="60" cy="60" r="52" class="ring-track" />
+            <circle cx="60" cy="60" r="52" class="ring-fill" id="ringFill" />
+          </svg>
+          <div class="score-ring-label">
+            <span id="scoreValue">--</span>
+            <small>score</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-controls">
+        <button onclick="start()" class="btn btn-primary" id="startBtn">Start session</button>
+        <button onclick="stop()" class="btn btn-ghost" id="stopBtn">Stop</button>
+        <span class="status-pill" id="statusPill">Camera idle</span>
+      </div>
+    </section>
+
+    <section class="coach-panel">
+      <div class="card guidance-card" id="guidanceCard">
+        <span class="eyebrow">Right now</span>
+        <h2 id="guidanceHeadline">Click Start to calibrate</h2>
+        <p id="guidanceDetail">Sit the way you normally would — that becomes your baseline. Sit Well tracks how far you drift from it.</p>
+      </div>
+
+      <div class="card history-card">
+        <span class="eyebrow">This session</span>
+        <canvas id="historyCanvas" width="360" height="120"></canvas>
+        <div class="history-legend">
+          <span><i class="dot dot-good"></i>good</span>
+          <span><i class="dot dot-warn"></i>drifting</span>
+          <span><i class="dot dot-bad"></i>correct now</span>
+        </div>
+      </div>
+
+      <div class="card about-card">
+        <span class="eyebrow">How it works</span>
+        <ol>
+          <li>PoseNet tracks your eyes and shoulders through your webcam — nothing is recorded or sent anywhere.</li>
+          <li>Your posture in the first few seconds after pressing Start becomes the target.</li>
+          <li>Drift past the threshold for more than a couple of seconds, and Sit Well nudges you back — with a suggestion, not just a beep.</li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    Built with TensorFlow.js (PoseNet) &middot; runs entirely in your browser
+  </footer>
+
+  <script src="video.js"></script>
+</body>
+</html>
