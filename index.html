@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Sit Well — Live Posture Coach</title>
+  <link rel="icon" href="data:," />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
+  <script src="https://unpkg.com/ml5@0.2.3/dist/ml5.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">◐</span>
+      <span class="brand-name">Sit&nbsp;Well</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#demo">Try it</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#why">Why it matters</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow hero-eyebrow">Runs entirely in your browser</span>
+    <h1>A posture coach that shows you the fix, not just the alarm.</h1>
+    <p class="hero-sub">Sit Well watches your posture with your webcam and tells you exactly what's wrong — lean back, sit up straighter, move to the middle — instead of just beeping until you guess.</p>
+    <a href="#demo" class="btn btn-primary hero-cta">Try it live ↓</a>
+  </section>
+
+  <main class="layout" id="demo">
+
+    <section class="stage-panel">
+      <div class="stage-frame">
+        <div id="video" class="stage-canvas-slot"></div>
+        <div class="score-ring-wrap" id="scoreRingWrap">
+          <svg viewBox="0 0 120 120" class="score-ring">
+            <circle cx="60" cy="60" r="52" class="ring-track" />
+            <circle cx="60" cy="60" r="52" class="ring-fill" id="ringFill" />
+          </svg>
+          <div class="score-ring-label">
+            <span id="scoreValue">--</span>
+            <small>score</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-controls">
+        <button onclick="start()" class="btn btn-primary" id="startBtn">Start session</button>
+        <button onclick="stop()" class="btn btn-ghost" id="stopBtn">Stop</button>
+        <label class="voice-toggle">
+          <input type="checkbox" id="voiceToggle" checked />
+          Speak guidance out loud
+        </label>
+        <span class="status-pill" id="statusPill">Camera idle</span>
+      </div>
+      <p class="stage-note">Keep this tab visible while you work (e.g. in a small window on the side) — browsers pause tracking when a tab is fully hidden.</p>
+    </section>
+
+    <section class="coach-panel">
+      <div class="card guidance-card" id="guidanceCard">
+        <span class="eyebrow">Right now</span>
+        <h2 id="guidanceHeadline">Click Start to get set up</h2>
+        <p id="guidanceDetail">Sit the way you normally do. Sit Well remembers this as your normal position, and lets you know if you move away from it.</p>
+      </div>
+
+      <div class="card history-card">
+        <span class="eyebrow">This session</span>
+        <canvas id="historyCanvas" width="360" height="120"></canvas>
+        <div class="history-legend">
+          <span><i class="dot dot-good"></i>good</span>
+          <span><i class="dot dot-warn"></i>a little off</span>
+          <span><i class="dot dot-bad"></i>needs fixing</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <section class="section-block" id="how-it-works">
+    <span class="eyebrow section-eyebrow">How it works</span>
+    <h2 class="section-heading">Three steps, no setup</h2>
+    <div class="step-grid">
+      <div class="step-card">
+        <span class="step-num">01</span>
+        <h3>Get ready</h3>
+        <p>Sit the way you normally do. For about a second, Sit Well quietly checks your position — that becomes your own personal goal, made just for you.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">02</span>
+        <h3>Track</h3>
+        <p>Your webcam watches your eyes and shoulders, right there in your browser. Nothing is recorded, saved, or sent anywhere.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">03</span>
+        <h3>Guide</h3>
+        <p>If you slouch or lean for too long, Sit Well tells you exactly what to fix — like "sit up straight" — with a soft sound and a spoken hint, not a harsh alarm.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="why">
+    <span class="eyebrow section-eyebrow">Why it matters</span>
+    <h2 class="section-heading">Built to actually change your posture, not just annoy you into it</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>Tells you what's wrong</h3>
+        <p>Says whether you've slouched or leaned — not just "something's wrong."</p>
+      </div>
+      <div class="feature-card">
+        <h3>Keeps your privacy</h3>
+        <p>Everything happens on your own computer. No video ever gets uploaded or sent anywhere.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Calm, not annoying</h3>
+        <p>Your score stays steady, and reminders come slowly — so it won't go off over every tiny move.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Shows your progress</h3>
+        <p>A live graph shows how your posture changed over your whole session.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-tech">
+      <span>Built with</span>
+      <span class="tech-badge">TensorFlow.js</span>
+      <span class="tech-badge">PoseNet</span>
+      <span class="tech-badge">p5.js</span>
+    </div>
+    <a href="https://github.com/TharaniKadari/sit-well" class="footer-link">View source on GitHub</a>
+  </footer>
+
+  <script src="video.js"></script>
+</body>
+</html>
